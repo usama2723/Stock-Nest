@@ -24,7 +24,9 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
         e.preventDefault()
 
         if (formData.password !== formData.confirmPassword) {
-            toast.error("❌ Passwords do not match.")
+            toast("Password mismatch", {
+                description: "Passwords do not match. Please try again.",
+            });
             return
         }
 
@@ -44,19 +46,25 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
             setLoading(false)
 
             if (res.ok) {
-                toast.success("✅ Account created! You can now log in.")
+                toast("Account created!", {
+                    description: "✅ You can now log in with your new account.",
+                })
                 setFormData({ name: "", email: "", password: "", confirmPassword: "" })
 
                 setTimeout(() => {
                     router.push("/pages/login")
                 }, 2000)
             } else {
-                toast.error(`❌ ${data.message || "Signup failed"}`)
+                toast("Signup failed",{
+                    description: `❌ ${data.message}`,
+                })
             }
         } catch (err) {
             console.error(err)
             setLoading(false)
-            toast.error("❌ Something went wrong. Please try again.")
+            toast("Error",{
+                description: "Something went wrong. Please try again.",
+            })
         }
     }
 
